@@ -56,8 +56,9 @@ export async function middleware(request: NextRequest) {
 
   console.log(`[Middleware] isAppApiRoute: ${isAppApiRoute}, isPublicRoute: ${isPublicRoute}`);
 
+  const AppApiRoute = false;
   // 如果是App API路由，进行JWT验证
-  if (isAppApiRoute) {
+  if (isAppApiRoute && AppApiRoute) {
     console.log(`[Middleware] 开始验证 JWT for ${pathname}`);
     const supabaseToken = request.headers.get("Authorization") || "";
     if (supabaseToken && supabaseToken.startsWith("Bearer ")) {
