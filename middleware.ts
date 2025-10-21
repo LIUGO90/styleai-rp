@@ -23,6 +23,7 @@ const publicRoutes = [
   "/favicon.ico",
   "/terms.html",
   "/privacy.html",
+  "/api/apple/testchat",
 ];
 
 // 特别指定的公开API路由（确保不需要鉴权）
@@ -42,6 +43,11 @@ export async function middleware(request: NextRequest) {
   const isPublicRoute = publicRoutes.some(route =>
     pathname.startsWith(route)
   );
+  
+  // 如果是公开路由，直接通过
+  if (isPublicRoute) {
+    return NextResponse.next();
+  }
 
   // 检查是否是App API路由（需要JWT验证）
   const isAppApiRoute = AppAppApiRoutes.some(route => 
@@ -133,12 +139,6 @@ export async function middleware(request: NextRequest) {
     console.error("[Middleware] 缺少Authorization header");
     return NextResponse.json({ error: "Unauthorized - Missing token" }, { status: 401 });
   }
-
-  // 如果是公开路由，直接通过
-  if (isPublicRoute) {
-    return NextResponse.next();
-  }
-
   // 检查是否是受保护的路由
   const isProtectedRoute = protectedRoutes.some(route =>
     pathname.startsWith(route)
