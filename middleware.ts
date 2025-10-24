@@ -26,10 +26,6 @@ const publicRoutes = [
   "/api/apple/testchat",
 ];
 
-// 特别指定的公开API路由（确保不需要鉴权）
-const publicApiRoutes = [
-  "/api/apple",
-];
 const AppAppApiRoutes = [
   "/api/apple",
 ];
@@ -55,6 +51,9 @@ export async function middleware(request: NextRequest) {
   );
 
   console.log(`[Middleware] isAppApiRoute: ${isAppApiRoute}, isPublicRoute: ${isPublicRoute}`);
+  console.log(`[Middleware] request.Method: ${request.method}`);
+  console.log(`[Middleware] request.Body: ${JSON.stringify(request.body)}`);
+  console.log(`[Middleware] request.Url: ${request.url}`);
 
   const AppApiRoute = false;
   // 如果是App API路由，进行JWT验证
